@@ -19,6 +19,10 @@
 	throw_range = 6
 	var/matter_amount = 600
 	var/max_matter_amount = 600
+	/// Matter charged per round for ammunition types that declare no matter_cost of
+	/// their own. Keeps a container usable with any caliber instead of silently
+	/// refusing the ones whose price was simply never filled in.
+	var/default_matter_cost = 5
 
 /obj/item/matter_ammo_container/box/Initialize(mapload, spawn_empty)
 	. = ..()
@@ -49,11 +53,11 @@
 		if(!silent)
 			to_chat(user, span_notice("[source] is already full."))
 		return FALSE
-	if(!source.default_ammo || source.default_ammo.matter_cost <= 0)
+	if(!source.default_ammo || !source.default_ammo.can_produce_from_matter())
 		if(!silent)
 			to_chat(user, span_warning("This ammunition type cannot be produced by [src]."))
 		return FALSE
-	if(matter_amount < source.default_ammo.matter_cost)
+	if(matter_amount < source.default_ammo.produce_cost(default_matter_cost))
 		if(!silent)
 			to_chat(user, span_warning("[src] does not contain enough universal ammunition."))
 		return FALSE
@@ -64,8 +68,9 @@
 	if(!can_transfer_ammo(target, user))
 		return FALSE
 
-	var/rounds_to_add = min(trunc(matter_amount / target.default_ammo.matter_cost), target.max_rounds - target.current_rounds)
-	var/matter_used = rounds_to_add * target.default_ammo.matter_cost
+	var/unit_cost = target.default_ammo.produce_cost(default_matter_cost)
+	var/rounds_to_add = min(trunc(matter_amount / unit_cost), target.max_rounds - target.current_rounds)
+	var/matter_used = rounds_to_add * unit_cost
 	target.current_rounds += rounds_to_add
 	matter_amount -= matter_used
 	target.update_icon()
@@ -76,15 +81,16 @@
 
 /// Reclaim universal ammunition from a magazine, matching matter_ammo_box behavior.
 /obj/item/matter_ammo_container/box/proc/convert_ammo_to_matter(obj/item/ammo_magazine/source, mob/user)
-	if(!source.default_ammo || source.default_ammo.matter_cost <= 0)
+	if(!source.default_ammo || !source.default_ammo.can_produce_from_matter())
 		to_chat(user, span_warning("This ammunition type cannot be reclaimed by [src]."))
 		return FALSE
 	if(matter_amount >= max_matter_amount)
 		to_chat(user, span_warning("[src] is full!"))
 		return FALSE
 
-	var/rounds_to_remove = min(source.current_rounds, trunc((max_matter_amount - matter_amount) / source.default_ammo.matter_cost))
-	var/matter_gained = rounds_to_remove * source.default_ammo.matter_cost
+	var/unit_cost = source.default_ammo.produce_cost(default_matter_cost)
+	var/rounds_to_remove = min(source.current_rounds, trunc((max_matter_amount - matter_amount) / unit_cost))
+	var/matter_gained = rounds_to_remove * unit_cost
 	if(!rounds_to_remove)
 		return FALSE
 	source.current_rounds -= rounds_to_remove

@@ -91,11 +91,31 @@
 	var/shrapnel_type = /obj/item/shard/shrapnel
 	///Set a timer for reloading handfuls.
 	var/reload_delay = 0 SECONDS
-	/// Cost in matter units to produce one round of this ammunition type. If set to 0, this ammo cannot be converted to/from matter.
+	/// Explicit cost in matter units per round. Leave this at 0 to inherit the parent
+	/// type's cost rather than to ban this ammunition from matter production, and
+	/// prefer inheriting over repeating an identical value on every subtype.
 	var/matter_cost = 0
+	/// Whether universal ammunition containers may produce or reclaim this ammunition.
+	/// Defaults to TRUE so newly added calibers work without extra bookkeeping. Set this
+	/// to FALSE on the ammunition families that must never be mass produced - energy,
+	/// rockets, artillery, shrapnel, xenomorph acid, Yautja, mech and hostile faction
+	/// ammunition - and not as a way of leaving the price unset.
+	var/producible_from_matter = TRUE
 
 /datum/ammo/proc/do_at_max_range(turf/target_turf, atom/movable/projectile/proj)
 	return
+
+/// May universal ammunition containers produce or reclaim this ammunition?
+/// This is deliberately independent of matter_cost: a price and a permission are
+/// different questions, and conflating them left most calibers unproducible.
+/datum/ammo/proc/can_produce_from_matter()
+	return producible_from_matter
+
+/// Matter units for a single round. Falls back to [fallback] when this type has no
+/// explicit price, so ammunition that merely inherited a zero stays producible
+/// instead of being silently excluded.
+/datum/ammo/proc/produce_cost(fallback)
+	return matter_cost > 0 ? matter_cost : fallback
 
 ///Does it do something special when shield blocked? Ie. a flare or grenade that still blows up.
 /datum/ammo/proc/on_shield_block(mob/target_mob, atom/movable/projectile/proj)

@@ -1,4 +1,5 @@
 /datum/ammo/energy
+	producible_from_matter = FALSE
 	ping = "ping_s"
 	sound_hit 	 = SFX_ENERGY_HIT
 	sound_armor = SFX_BALLISTIC_ARMOR

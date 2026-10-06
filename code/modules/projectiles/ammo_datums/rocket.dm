@@ -1,4 +1,5 @@
 /datum/ammo/rocket
+	producible_from_matter = FALSE
 	name = "high explosive rocket"
 	icon_state = "missile"
 	hud_state = "rocket_he"

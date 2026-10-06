@@ -1,4 +1,5 @@
 /datum/ammo/flamethrower
+	producible_from_matter = FALSE
 	name = "flame"
 	icon_state = "pulse0"
 	hud_state = "flame"
@@ -56,6 +57,7 @@
 	bullet_color = LIGHT_COLOR_ELECTRIC_GREEN
 
 /datum/ammo/water
+	producible_from_matter = FALSE
 	name = "water"
 	icon_state = "pulse1"
 	hud_state = "water"

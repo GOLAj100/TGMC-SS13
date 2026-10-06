@@ -1,4 +1,5 @@
 /datum/ammo/bullet/shrapnel
+	producible_from_matter = FALSE
 	name = "shrapnel"
 	icon_state = "buckshot_shrapnel"
 	accuracy = 15

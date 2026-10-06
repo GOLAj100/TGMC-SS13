@@ -12,6 +12,9 @@
 	var/matter_amount = 8000
 	///Maximum stored matter
 	var/max_matter_amount = 8000
+	///Matter charged per round for ammunition types that declare no matter_cost of
+	///their own.
+	var/default_matter_cost = 5
 	///Whether the box requires being on the ground to use
 	var/requires_ground = TRUE
 	///Whether using the box has a delay
@@ -67,7 +70,7 @@
 	if(istype(I, /obj/item/ammo_magazine))
 		var/obj/item/ammo_magazine/ammo_magazine = I
 
-		if(!ammo_magazine.default_ammo || ammo_magazine.default_ammo.matter_cost <= 0)
+		if(!ammo_magazine.default_ammo || !ammo_magazine.default_ammo.can_produce_from_matter())
 			to_chat(user, span_warning("This ammunition type cannot be produced by [src]."))
 			return
 
@@ -81,8 +84,9 @@
 				return
 
 			playsound(loc, 'sound/weapons/guns/interact/revolver_load.ogg', 25, 1)
-			var/rounds_to_add = min(trunc(matter_amount / ammo_magazine.default_ammo.matter_cost), ammo_magazine.max_rounds - ammo_magazine.current_rounds)
-			var/matter_used = rounds_to_add * ammo_magazine.default_ammo.matter_cost
+			var/unit_cost = ammo_magazine.default_ammo.produce_cost(default_matter_cost)
+			var/rounds_to_add = min(trunc(matter_amount / unit_cost), ammo_magazine.max_rounds - ammo_magazine.current_rounds)
+			var/matter_used = rounds_to_add * unit_cost
 
 			ammo_magazine.current_rounds += rounds_to_add
 			matter_amount -= matter_used
@@ -100,8 +104,9 @@
 				return
 
 			playsound(loc, 'sound/weapons/guns/interact/revolver_load.ogg', 25, 1)
-			var/rounds_to_remove = min(ammo_magazine.current_rounds, trunc((max_matter_amount - matter_amount) / ammo_magazine.default_ammo.matter_cost))
-			var/matter_gained = rounds_to_remove * ammo_magazine.default_ammo.matter_cost
+			var/unit_cost = ammo_magazine.default_ammo.produce_cost(default_matter_cost)
+			var/rounds_to_remove = min(ammo_magazine.current_rounds, trunc((max_matter_amount - matter_amount) / unit_cost))
+			var/matter_gained = rounds_to_remove * unit_cost
 
 			ammo_magazine.current_rounds -= rounds_to_remove
 			matter_amount += matter_gained

@@ -1,4 +1,5 @@
 /datum/ammo/bullet/pistol/mech
+	producible_from_matter = FALSE
 	name = "super-heavy pistol bullet"
 	hud_state = "pistol_superheavy"
 	damage = 45
@@ -10,11 +11,13 @@
 	penetration = 10
 
 /datum/ammo/bullet/smg/mech
+	producible_from_matter = FALSE
 	name = "super-heavy submachinegun bullet"
 	damage = 20
 	penetration = 10
 
 /datum/ammo/bullet/rifle/mech
+	producible_from_matter = FALSE
 	name = "super-heavy rifle bullet"
 	damage = 25
 	penetration = 15
@@ -30,6 +33,7 @@
 	damage_falloff = 0.7
 
 /datum/ammo/bullet/shotgun/mech
+	producible_from_matter = FALSE
 	name = "super-heavy shotgun buckshot shell"
 	icon_state = "buckshot"
 	hud_state = "shotgun_buckshot"

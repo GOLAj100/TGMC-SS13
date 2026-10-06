@@ -73,6 +73,7 @@
 	matter_cost = 3
 
 /datum/ammo/bullet/rifle/som_machinegun
+	producible_from_matter = FALSE
 	name = "machinegun bullet"
 	hud_state = "rifle_heavy"
 	damage = 25
@@ -84,6 +85,7 @@
 	staggerstun(target_mob, proj, max_range = 20, slowdown = 0.5)
 
 /datum/ammo/bullet/rifle/som_big
+	producible_from_matter = FALSE
 	name = "heavy rifle bullet"
 	hud_state = "hivelo"
 	hud_state_empty = "hivelo_empty"
@@ -338,6 +340,7 @@
 	sundering = 0.5
 
 /datum/ammo/bullet/railgun
+	producible_from_matter = FALSE
 	name = "armor piercing railgun slug"
 	hud_state = "railgun_ap"
 	icon_state = "blue_bullet"
@@ -380,6 +383,7 @@
 	staggerstun(target_mob, proj, stagger = 3 SECONDS, slowdown = 3)
 
 /datum/ammo/bullet/coilgun
+	producible_from_matter = FALSE
 	name = "high-velocity tungsten slug"
 	hud_state = "railgun_ap"
 	icon_state = "blue_bullet"

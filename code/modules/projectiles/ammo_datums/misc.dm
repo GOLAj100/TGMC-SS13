@@ -80,6 +80,7 @@
 */
 
 /datum/ammo/tx54
+	producible_from_matter = FALSE
 	name = "20mm airburst grenade"
 	icon_state = "20mm_flight"
 	hud_state = "grenade_airburst"
@@ -387,6 +388,7 @@
 		drop_flame(target_turf)
 
 /datum/ammo/micro_rail_cluster
+	producible_from_matter = FALSE
 	name = "bomblet"
 	icon_state = "bullet"
 	ammo_behavior_flags = AMMO_BALLISTIC|AMMO_LEAVE_TURF
@@ -451,6 +453,7 @@
 	detonate(target_turf.density ? proj.loc : target_turf, proj)
 
 /datum/ammo/smoke_burst
+	producible_from_matter = FALSE
 	name = "micro smoke canister"
 	icon_state = "bullet"
 	ammo_behavior_flags = AMMO_BALLISTIC

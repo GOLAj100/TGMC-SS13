@@ -7,6 +7,7 @@ GLOBAL_LIST_INIT(no_sticky_resin, typecacheof(list(
 ))) //For sticky/acid spit
 
 /datum/ammo/xeno
+	producible_from_matter = FALSE
 	icon_state = "neurotoxin"
 	ping = "ping_x"
 	damage_type = TOX

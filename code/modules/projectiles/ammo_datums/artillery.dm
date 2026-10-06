@@ -1,4 +1,5 @@
 /datum/ammo/mortar
+	producible_from_matter = FALSE
 	name = "80mm shell"
 	icon_state = "mortar"
 	ammo_behavior_flags = AMMO_TARGET_TURF|AMMO_PASS_THROUGH_TURF|AMMO_PASS_THROUGH_MOVABLE
@@ -174,6 +175,7 @@
 	drop_flame(target_turf)
 
 /datum/ammo/ags_shrapnel
+	producible_from_matter = FALSE
 	name = "fragmentation grenade"
 	icon_state = "grenade_projectile"
 	hud_state = "grenade_frag"
@@ -256,6 +258,7 @@
 	target_turf.ignite(5, 10)
 
 /datum/ammo/grenade_container
+	producible_from_matter = FALSE
 	name = "grenade shell"
 	ping = null
 	damage_type = BRUTE
